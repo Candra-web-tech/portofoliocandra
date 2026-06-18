@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Manajemen Perpustakaan</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+header{
+    background:#1e40af;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:20px auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+}
+
+.stat{
+    background:#1e40af;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:2fr 2fr 1fr auto;
+    gap:10px;
+}
+
+input{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+button{
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+}
+
+.btn-add{
+    background:#16a34a;
+}
+
+.btn-delete{
+    background:#dc2626;
+}
+
+.btn-borrow{
+    background:#2563eb;
+}
+
+.btn-return{
+    background:#f59e0b;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th,
+table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:20px;
+    color:white;
+    font-size:12px;
+}
+
+.available{
+    background:#16a34a;
+}
+
+.borrowed{
+    background:#dc2626;
+}
+
+.search{
+    width:100%;
+    margin-bottom:15px;
+}
+
+@media(max-width:768px){
+
+.form-grid{
+    grid-template-columns:1fr;
+}
+
+table{
+    font-size:14px;
+}
+
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>📚 Sistem Manajemen Perpustakaan Kampus</h1>
+    <p>Pengelolaan Buku, Peminjaman dan Pengembalian</p>
+</header>
+
+<div class="container">
+
+    <!-- Statistik -->
+    <div class="card">
+        <h2>Dashboard</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3 id="totalBooks">0</h3>
+                <p>Total Buku</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="availableBooks">0</h3>
+                <p>Tersedia</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="borrowedBooks">0</h3>
+                <p>Dipinjam</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Form Buku -->
+    <div class="card">
+
+        <h2>Tambah Buku</h2>
+
+        <div class="form-grid">
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Judul Buku">
+
+            <input
+                type="text"
+                id="author"
+                placeholder="Penulis">
+
+            <input
+                type="number"
+                id="year"
+                placeholder="Tahun">
+
+            <button
+                class="btn-add"
+                onclick="addBook()">
+                Tambah
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+    <div class="card">
+
+        <h2>Pencarian Buku</h2>
+
+        <input
+            class="search"
+            type="text"
+            id="search"
+            placeholder="Cari judul buku..."
+            onkeyup="searchBook()">
+
+    </div>
+
+    <!-- Tabel Buku -->
+    <div class="card">
+
+        <h2>Daftar Buku</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Penulis</th>
+                    <th>Tahun</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody id="bookList"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let books =
+JSON.parse(localStorage.getItem("books")) || [
+
+{
+id:1,
+title:"Pemrograman Web",
+author:"Andi",
+year:2024,
+status:"Tersedia"
+},
+
+{
+id:2,
+title:"Basis Data",
+author:"Budi",
+year:2023,
+status:"Dipinjam"
+}
+
+];
+
+function saveBooks(){
+localStorage.setItem(
+"books",
+JSON.stringify(books)
+);
+}
+
+function addBook(){
+
+let title =
+document.getElementById("title").value;
+
+let author =
+document.getElementById("author").value;
+
+let year =
+document.getElementById("year").value;
+
+if(!title || !author || !year){
+
+alert("Lengkapi data buku!");
+return;
+
+}
+
+books.push({
+
+id:Date.now(),
+title,
+author,
+year,
+status:"Tersedia"
+
+});
+
+saveBooks();
+
+document.getElementById("title").value="";
+document.getElementById("author").value="";
+document.getElementById("year").value="";
+
+renderBooks();
+}
+
+function deleteBook(id){
+
+if(confirm("Hapus buku ini?")){
+
+books = books.filter(
+book => book.id !== id
+);
+
+saveBooks();
+renderBooks();
+
+}
+}
+
+function borrowBook(id){
+
+let book =
+books.find(
+book => book.id === id
+);
+
+if(book.status === "Dipinjam"){
+
+alert("Buku sedang dipinjam!");
+return;
+
+}
+
+book.status = "Dipinjam";
+
+saveBooks();
+renderBooks();
+}
+
+function returnBook(id){
+
+let book =
+books.find(
+book => book.id === id
+);
+
+book.status = "Tersedia";
+
+saveBooks();
+renderBooks();
+}
+
+function renderBooks(data = books){
+
+let list =
+document.getElementById("bookList");
+
+list.innerHTML="";
+
+data.forEach(book=>{
+
+list.innerHTML += `
+<tr>
+
+<td>${book.title}</td>
+
+<td>${book.author}</td>
+
+<td>${book.year}</td>
+
+<td>
+<span class="status ${
+book.status==="Tersedia"
+? "available"
+: "borrowed"
+}">
+${book.status}
+</span>
+</td>
+
+<td>
+
+<button
+class="btn-borrow"
+onclick="borrowBook(${book.id})">
+Pinjam
+</button>
+
+<button
+class="btn-return"
+onclick="returnBook(${book.id})">
+Kembali
+</button>
+
+<button
+class="btn-delete"
+onclick="deleteBook(${book.id})">
+Hapus
+</button>
+
+</td>
+
+</tr>
+`;
+
+});
+
+updateDashboard();
+}
+
+function updateDashboard(){
+
+document.getElementById("totalBooks")
+.textContent = books.length;
+
+document.getElementById("availableBooks")
+.textContent =
+books.filter(
+book=>book.status==="Tersedia"
+).length;
+
+document.getElementById("borrowedBooks")
+.textContent =
+books.filter(
+book=>book.status==="Dipinjam"
+).length;
+}
+
+function searchBook(){
+
+let keyword =
+document.getElementById("search")
+.value.toLowerCase();
+
+let filtered =
+books.filter(book=>
+
+book.title
+.toLowerCase()
+.includes(keyword)
+
+);
+
+renderBooks(filtered);
+}
+
+renderBooks();
+
+</script>
+
+</body>
+</html>

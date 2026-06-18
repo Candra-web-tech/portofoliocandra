@@ -1,0 +1,1302 @@
+/* ============================================
+   IMPORT FONT & CSS VARIABLES
+=============================================== */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Fira+Code:wght@300;400;500;700&display=swap');
+
+:root {
+  /* === DARK MODE (Terminal) === */
+  --bg:           #0d0d0d;
+  --bg-2:         #111111;
+  --bg-card:      #141414;
+  --bg-term:      #0a0a0a;
+  --border:       #1f1f1f;
+  --border-hl:    #00ff41;
+
+  --green:        #00ff41;
+  --green-dim:    #00cc33;
+  --green-glow:   rgba(0, 255, 65, 0.15);
+  --green-glow2:  rgba(0, 255, 65, 0.06);
+  --amber:        #ffb700;
+  --red:          #ff5f57;
+  --yellow:       #febc2e;
+
+  --text:         #c8ffc8;
+  --text-dim:     #5a8a5a;
+  --text-muted:   #2f5c2f;
+  --text-comment: #3a7a3a;
+  --text-white:   #e0ffe0;
+
+  --prompt:       var(--green);
+  --cmd:          #b0ffb0;
+  --string:       #ffd280;
+  --keyword:      #80c8ff;
+  --number:       #ff9580;
+  --property:     #c8ffc8;
+
+  --font: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --radius: 4px;
+  --radius-term: 8px;
+  --nav-h: 58px;
+  --transition: all 0.25s ease;
+}
+
+/* === LIGHT MODE (Paper Terminal) === */
+[data-theme="light"] {
+  --bg:           #f5f0e8;
+  --bg-2:         #ede8de;
+  --bg-card:      #faf7f0;
+  --bg-term:      #1a1a1a;
+  --border:       #ccc8be;
+  --border-hl:    #00882a;
+
+  --green:        #00882a;
+  --green-dim:    #006620;
+  --green-glow:   rgba(0, 136, 42, 0.12);
+  --green-glow2:  rgba(0, 136, 42, 0.05);
+
+  --text:         #1a3a1a;
+  --text-dim:     #4a6a4a;
+  --text-muted:   #8a9a8a;
+  --text-comment: #6a8a6a;
+  --text-white:   #0a1a0a;
+
+  --prompt:       var(--green);
+  --cmd:          #1a2a1a;
+  --string:       #885500;
+  --keyword:      #004488;
+  --number:       #882200;
+  --property:     #1a3a1a;
+}
+/* ============================================
+   AKHIR CSS VARIABLES
+=============================================== */
+
+
+/* ============================================
+   RESET & BASE
+=============================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 14px;
+  transition: background 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 80px 0;
+}
+/* ============================================
+   AKHIR RESET & BASE
+=============================================== */
+
+
+/* ============================================
+   EFEK CRT SCANLINE
+=============================================== */
+.scanline {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+[data-theme="light"] .scanline {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.02) 2px,
+    rgba(0, 0, 0, 0.02) 4px
+  );
+}
+/* ============================================
+   AKHIR EFEK CRT SCANLINE
+=============================================== */
+
+
+/* ============================================
+   KOMPONEN TERMINAL WINDOW
+=============================================== */
+.terminal-window {
+  background: var(--bg-term);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-term);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--border), 0 20px 60px rgba(0,0,0,0.5);
+}
+
+[data-theme="light"] .terminal-window {
+  box-shadow: 0 0 0 1px var(--border), 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.terminal-titlebar {
+  background: #1e1e1e;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="light"] .terminal-titlebar {
+  background: #2d2d2d;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+
+.dot-red    { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green  { background: #28c840; }
+
+.terminal-title {
+  font-size: 12px;
+  color: #888;
+  flex: 1;
+  text-align: center;
+}
+
+.terminal-body {
+  padding: 20px 24px;
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+/* ============================================
+   AKHIR KOMPONEN TERMINAL WINDOW
+=============================================== */
+
+
+/* ============================================
+   KOMPONEN TERMINAL LINE & ELEMEN TEKS
+=============================================== */
+.t-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2px;
+}
+
+.t-prompt {
+  color: var(--green);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.t-cmd {
+  color: var(--cmd);
+}
+
+.t-output {
+  padding-left: 0;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.t-name {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--text-white);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.t-bio {
+  color: var(--text-dim);
+  font-size: 13px;
+  max-width: 460px;
+}
+
+.t-hl {
+  color: var(--green);
+}
+
+.t-active-line {
+  margin-top: 8px;
+  opacity: 0.6;
+}
+
+.blink-cursor {
+  color: var(--green);
+  animation: blink 1s step-end infinite;
+  font-weight: 400;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+/* ============================================
+   AKHIR KOMPONEN TERMINAL LINE
+=============================================== */
+
+
+/* ============================================
+   KOMPONEN TOMBOL (TERMINAL STYLE)
+=============================================== */
+.t-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  background: transparent;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.t-btn:hover {
+  background: var(--green);
+  color: #000;
+  box-shadow: 0 0 12px var(--green-glow);
+}
+
+.t-btn-ghost {
+  border-color: var(--border-hl);
+  color: var(--text-dim);
+}
+
+.t-btn-ghost:hover {
+  border-color: var(--green);
+  background: var(--green-glow2);
+  color: var(--green);
+}
+
+.t-btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+/* ============================================
+   AKHIR KOMPONEN TOMBOL
+=============================================== */
+
+
+/* ============================================
+   NAVIGASI
+=============================================== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(10, 10, 10, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  transition: var(--transition);
+}
+
+[data-theme="light"] .navbar {
+  background: rgba(240, 235, 225, 0.96);
+}
+
+.navbar.scrolled {
+  border-bottom-color: var(--green-dim);
+  box-shadow: 0 1px 20px rgba(0, 255, 65, 0.08);
+}
+
+.nav-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.prompt-symbol {
+  color: var(--green);
+}
+
+.logo-name {
+  color: var(--text-white);
+}
+
+/* Tab navigasi */
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-tab {
+  padding: 6px 14px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+  letter-spacing: 0.3px;
+}
+
+.nav-tab:hover {
+  color: var(--text-dim);
+  border-bottom-color: var(--text-muted);
+}
+
+.nav-tab.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+.tab-num {
+  color: var(--text-comment);
+  font-size: 11px;
+  margin-right: 3px;
+}
+
+/* Aksi kanan */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.theme-toggle:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text-dim);
+  transition: var(--transition);
+}
+
+.hamburger.active span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+/* ============================================
+   AKHIR NAVIGASI
+=============================================== */
+
+
+/* ============================================
+   SECTION HOME / HERO
+=============================================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 40px) 24px 60px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.hero-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  width: 100%;
+}
+
+.hero-inner .terminal-window {
+  flex: 1.2;
+}
+
+/* Foto profil */
+.hero-photo {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.photo-frame {
+  position: relative;
+  width: 220px;
+  height: 260px;
+  border: 1px solid var(--green-dim);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 0 20px var(--green-glow);
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(20%) contrast(1.05);
+}
+
+.photo-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 3px,
+    rgba(0,255,65,0.03) 3px,
+    rgba(0,255,65,0.03) 6px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.photo-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  padding: 20px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 11px;
+  z-index: 2;
+}
+
+.photo-overlay span:first-child {
+  color: var(--text-dim);
+}
+
+.status-dot {
+  color: var(--green);
+  font-size: 10px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* Sosial di bawah foto */
+.hero-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.social-link:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-glow2);
+}
+
+.social-link i {
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+}
+/* ============================================
+   AKHIR SECTION HOME / HERO
+=============================================== */
+
+
+/* ============================================
+   SECTION HEADER (JUDUL TIAP SECTION)
+=============================================== */
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.sec-cmd {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.sec-cmd::before {
+  content: '$ ';
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.sec-divider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--green-dim), transparent);
+  opacity: 0.4;
+}
+/* ============================================
+   AKHIR SECTION HEADER
+=============================================== */
+
+
+/* ============================================
+   SECTION ABOUT ME
+=============================================== */
+.about {
+  background: var(--bg-2);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Frame foto about */
+.code-frame {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.code-frame-header {
+  background: #1e1e1e;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--text-comment);
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="light"] .code-frame-header {
+  background: #2d2d2d;
+}
+
+.code-frame img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(10%);
+}
+
+/* Code block about */
+.code-block {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.code-block-header {
+  background: #1e1e1e;
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+}
+
+[data-theme="light"] .code-block-header {
+  background: #2d2d2d;
+}
+
+.file-tab {
+  padding: 8px 18px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+}
+
+.active-tab {
+  color: var(--text);
+  background: var(--bg-term);
+  border-top: 1px solid var(--green);
+}
+
+.code-content {
+  padding: 16px 0;
+  background: var(--bg-term);
+  overflow-x: auto;
+}
+
+.code-line {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 1px 20px;
+  font-size: 13px;
+  line-height: 1.9;
+  white-space: pre;
+}
+
+.code-line:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.ln {
+  color: var(--text-muted);
+  font-size: 11px;
+  min-width: 20px;
+  text-align: right;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Syntax colors */
+.kw   { color: var(--keyword); }
+.str  { color: var(--string); }
+.num  { color: var(--number); }
+.cmt  { color: var(--text-comment); font-style: italic; }
+.var  { color: #c8a0ff; }
+.prop { color: var(--property); }
+/* ============================================
+   AKHIR SECTION ABOUT ME
+=============================================== */
+
+
+/* ============================================
+   SECTION SKILLS
+=============================================== */
+.skills-body {
+  padding: 16px 24px;
+}
+
+.json-line {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 2;
+}
+
+.json-key   { color: var(--string); }
+.json-colon { color: var(--text-dim); }
+.json-brace { color: var(--text-white); }
+
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  line-height: 2;
+  font-size: 13px;
+}
+
+.sk-name {
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.sk-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 300px;
+}
+
+.sk-bar {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+  width: 0;
+  transition: width 1.2s ease;
+  box-shadow: 0 0 6px var(--green-glow);
+}
+
+.sk-pct {
+  color: var(--green);
+  font-size: 12px;
+  min-width: 36px;
+  text-align: right;
+}
+/* ============================================
+   AKHIR SECTION SKILLS
+=============================================== */
+
+
+/* ============================================
+   SECTION PORTFOLIO
+=============================================== */
+.portfolio {
+  background: var(--bg-2);
+}
+
+.port-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  color: var(--text-comment);
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.f-btn {
+  padding: 5px 14px;
+  font-family: var(--font);
+  font-size: 12px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.f-btn:hover,
+.f-btn.active {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-glow2);
+}
+
+.port-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.port-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-term);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.port-card:hover {
+  border-color: var(--green-dim);
+  box-shadow: 0 0 20px var(--green-glow2);
+  transform: translateY(-3px);
+}
+
+.port-card.hidden {
+  display: none;
+}
+
+.port-card-header {
+  background: #1a1a1a;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="light"] .port-card-header {
+  background: #2d2d2d;
+}
+
+.port-filename {
+  font-size: 11.5px;
+  color: var(--text-comment);
+}
+
+.port-card-img {
+  position: relative;
+  height: 170px;
+  overflow: hidden;
+  background: var(--bg-term);
+}
+
+.port-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  filter: grayscale(15%);
+}
+
+.port-card:hover .port-card-img img {
+  transform: scale(1.04);
+}
+
+.port-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.port-card:hover .port-img-overlay {
+  opacity: 1;
+}
+
+.port-card-body {
+  padding: 16px;
+}
+
+.port-comment {
+  font-size: 11px;
+  color: var(--text-comment);
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.port-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 8px;
+}
+
+.port-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.port-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.port-tags span {
+  font-size: 10.5px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-comment);
+}
+/* ============================================
+   AKHIR SECTION PORTFOLIO
+=============================================== */
+
+
+/* ============================================
+   SECTION CONTACT
+=============================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.contact-tagline {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 12px 0 28px;
+  max-width: 320px;
+  line-height: 1.8;
+}
+
+.contact-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.ce-key {
+  color: var(--string);
+  min-width: 80px;
+}
+
+.ce-sep {
+  color: var(--text-muted);
+}
+
+.ce-val {
+  color: var(--text-dim);
+  transition: var(--transition);
+}
+
+a.ce-val:hover {
+  color: var(--green);
+}
+
+/* Form */
+.c-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.c-field label {
+  font-size: 12px;
+  color: var(--text-comment);
+}
+
+.t-prompt-mini {
+  color: var(--green);
+  margin-right: 4px;
+}
+
+.req {
+  color: var(--red);
+  margin-left: 2px;
+}
+
+.c-field input,
+.c-field textarea {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 14px;
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: var(--transition);
+  resize: vertical;
+}
+
+.c-field input:focus,
+.c-field textarea:focus {
+  border-color: var(--green-dim);
+  box-shadow: 0 0 0 2px var(--green-glow2);
+}
+
+.btn-submit {
+  margin-top: 4px;
+}
+
+.form-status {
+  font-size: 12px;
+  min-height: 20px;
+  margin-top: 4px;
+}
+
+.form-status.success { color: var(--green); }
+.form-status.error   { color: var(--red); }
+/* ============================================
+   AKHIR SECTION CONTACT
+=============================================== */
+
+
+/* ============================================
+   FOOTER
+=============================================== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0 20px;
+  background: var(--bg-2);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-center {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.footer-right {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-right a {
+  font-size: 15px;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+
+.footer-right a:hover {
+  color: var(--green);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.process-bar {
+  font-family: var(--font);
+  color: var(--green-dim);
+  font-size: 11px;
+  min-width: 120px;
+}
+
+.footer-status {
+  color: var(--text-comment);
+}
+/* ============================================
+   AKHIR FOOTER
+=============================================== */
+
+
+/* ============================================
+   TOMBOL SCROLL TO TOP
+=============================================== */
+.scroll-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--green-dim);
+  color: var(--green);
+  font-family: var(--font);
+  font-size: 11px;
+  padding: 7px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  z-index: 999;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scroll-top:hover {
+  background: var(--green);
+  color: #000;
+  box-shadow: 0 0 12px var(--green-glow);
+}
+/* ============================================
+   AKHIR TOMBOL SCROLL TO TOP
+=============================================== */
+
+
+/* ============================================
+   RESPONSIF — TABLET (max-width: 900px)
+=============================================== */
+@media (max-width: 900px) {
+  .hero-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .hero-photo {
+    flex: none;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .photo-frame {
+    width: 160px;
+    height: 190px;
+    flex-shrink: 0;
+  }
+
+  .hero-socials {
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .port-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-body {
+    overflow-x: auto;
+  }
+}
+/* ============================================
+   AKHIR RESPONSIF — TABLET
+=============================================== */
+
+
+/* ============================================
+   RESPONSIF — MOBILE (max-width: 600px)
+=============================================== */
+@media (max-width: 600px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-tabs {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.98);
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 999;
+  }
+
+  [data-theme="light"] .nav-tabs {
+    background: rgba(240, 235, 225, 0.98);
+  }
+
+  .nav-tabs.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .nav-tab {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    border-left: none;
+    width: 100%;
+  }
+
+  .nav-tab.active {
+    border-bottom: 1px solid var(--green);
+    border-left: 2px solid var(--green);
+  }
+
+  .hero-photo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-socials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .port-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .t-name {
+    font-size: 1.4rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-right {
+    justify-content: center;
+  }
+}
+/* ============================================
+   AKHIR RESPONSIF — MOBILE
+=============================================== */

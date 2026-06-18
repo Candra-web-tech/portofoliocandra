@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Candra Anggriana :: terminal</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ============================================
+       SCAN LINE OVERLAY (EFEK CRT MONITOR)
+  =============================================== -->
+  <div class="scanline"></div>
+  <!-- ============================================
+       AKHIR SCAN LINE OVERLAY
+  =============================================== -->
+
+
+  <!-- ============================================
+       NAVIGASI
+  =============================================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+
+      <!-- Logo kiri seperti tab editor -->
+      <div class="nav-logo">
+        <span class="prompt-symbol">~/</span><span class="logo-name">CanCan</span><span class="blink-cursor">▮</span>
+      </div>
+
+      <!-- Menu tengah seperti tab file editor -->
+      <nav class="nav-tabs" id="navMenu">
+        <a href="#home"      class="nav-tab active"><span class="tab-num">01.</span> home</a>
+        <a href="#about"     class="nav-tab"><span class="tab-num">02.</span> about</a>
+        <a href="#skills"    class="nav-tab"><span class="tab-num">03.</span> skills</a>
+        <a href="#portfolio" class="nav-tab"><span class="tab-num">04.</span> projects</a>
+        <a href="#contact"   class="nav-tab"><span class="tab-num">05.</span> contact</a>
+      </nav>
+
+      <!-- Aksi kanan -->
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+          <span id="themeLabel">[ light ]</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+  <!-- ============================================
+       AKHIR NAVIGASI
+  =============================================== -->
+
+
+  <!-- ============================================
+       SECTION HOME / HERO
+  =============================================== -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+
+      <!-- Terminal window chrome -->
+      <div class="terminal-window">
+        <div class="terminal-titlebar">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="terminal-title">bash — Candra Anggriana — 80x24</span>
+        </div>
+
+        <div class="terminal-body">
+          <!-- Baris perintah 1 -->
+          <div class="t-line">
+            <span class="t-prompt">visitor@portfolio:~$</span>
+            <span class="t-cmd"> whoami</span>
+          </div>
+          <!-- Output -->
+          <div class="t-output">
+            <p class="t-name">Candra Anggriana</p>
+          </div>
+
+          <!-- Baris perintah 2 -->
+          <div class="t-line">
+            <span class="t-prompt">visitor@portfolio:~$</span>
+            <span class="t-cmd"> cat role.txt</span>
+          </div>
+          <!-- Typing output -->
+          <div class="t-output">
+            <p><span id="typingRole"></span><span class="blink-cursor">▮</span></p>
+          </div>
+
+          <!-- Baris perintah 3 -->
+          <div class="t-line">
+            <span class="t-prompt">visitor@portfolio:~$</span>
+            <span class="t-cmd"> cat bio.txt</span>
+          </div>
+          <div class="t-output">
+            <p class="t-bio">Mahasiswa <span class="t-hl">Sistem Informasi</span> yang gemar membangun
+            solusi digital. Kode adalah kanvas, logika adalah kuas.</p>
+          </div>
+
+          <!-- Baris perintah 4 — tombol aksi -->
+          <div class="t-line">
+            <span class="t-prompt">visitor@portfolio:~$</span>
+            <span class="t-cmd"> ls ./actions</span>
+          </div>
+          <div class="t-output hero-actions">
+            <a href="#portfolio" class="t-btn">[lihat_proyek]</a>
+            <a href="#contact"   class="t-btn t-btn-ghost">[hubungi_saya]</a>
+            <a href="CV_Candra_Anggriana.pdf" download class="t-btn t-btn-ghost">[unduh_cv]</a>
+          </div>
+
+          <!-- Baris aktif (prompt berkedip bawah) -->
+          <div class="t-line t-active-line">
+            <span class="t-prompt">visitor@portfolio:~$</span>
+            <span class="blink-cursor">▮</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto profil di kanan -->
+      <div class="hero-photo">
+        <div class="photo-frame">
+          <div class="photo-scanline"></div>
+          <img src="foto1.jpg" alt="foto profil candra anggriana" />
+          <div class="photo-overlay">
+            <span>// Candra Anggriana</span>
+            <span class="status-dot">● ONLINE</span>
+          </div>
+        </div>
+        <!-- Sosial di bawah foto -->
+        <div class="hero-socials">
+          <a href="https://github.com/Candra-web-tech" target="_blank" class="social-link">
+            <i class="fa-brands fa-github"></i><span>github</span>
+          </a>
+          <a href="https://www.linkedin.com/in/pt-lebak-artha-global-592386417/" target="_blank" class="social-link">
+            <i class="fa-brands fa-linkedin"></i><span>linkedin</span>
+          </a>
+          <a href="https://www.instagram.com/bubucan08/" target="_blank" class="social-link">
+            <i class="fa-brands fa-instagram"></i><span>instagram</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ============================================
+       AKHIR SECTION HOME / HERO
+  =============================================== -->
+
+
+  <!-- ============================================
+       SECTION ABOUT ME / TENTANG SAYA
+  =============================================== -->
+  <section class="about section" id="about">
+    <div class="container">
+
+      <!-- Section header gaya terminal -->
+      <div class="sec-header">
+        <span class="sec-cmd">cat about.md</span>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="about-grid">
+
+        <!-- Foto -->
+        <div class="about-photo">
+          <div class="code-frame">
+            <div class="code-frame-header">
+              <span>// profile.jpg</span>
+            </div>
+            <img src="foto2.jpg" alt="About Candra Anggriana" />
+          </div>
+        </div>
+
+        <!-- Teks -->
+        <div class="about-text">
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="file-tab active-tab">about.md</span>
+            </div>
+            <div class="code-content">
+              <div class="code-line"><span class="ln">1</span><span class="kw">##</span> Siapa Saya?</div>
+              <div class="code-line"><span class="ln">2</span></div>
+              <div class="code-line"><span class="ln">3</span>Saya adalah mahasiswa aktif <span class="str">Jurusan Sistem Informasi</span></div>
+              <div class="code-line"><span class="ln">4</span>di <span class="str">Universitas Pamulang</span>, semester <span class="num">Semester 5</span>.</div>
+              <div class="code-line"><span class="ln">5</span></div>
+              <div class="code-line"><span class="ln">6</span><span class="cmt">Antusias dalam pengembangan aplikasi web dan cyber security</span></div>
+              <div class="code-line"><span class="ln">7</span></div>
+              <div class="code-line"><span class="ln">8</span><span class="kw">const</span> <span class="var">profile</span> = {</div>
+              <div class="code-line"><span class="ln">9</span>&nbsp;&nbsp;<span class="prop">nama</span>: <span class="str">"Candra Anggriana"</span>,</div>
+              <div class="code-line"><span class="ln">10</span>&nbsp;&nbsp;<span class="prop">tempat lahir</span>: <span class="str">"Bandung"</span>,</div>
+              <div class="code-line"><span class="ln">11</span>&nbsp;&nbsp;<span class="prop">lokasi</span>: <span class="str">"Serang, Banten"</span>,</div>
+              <div class="code-line"><span class="ln">12</span>&nbsp;&nbsp;<span class="prop">email</span>: <span class="str">"mardi19111961@gmail.com"</span>,</div>
+              <div class="code-line"><span class="ln">13</span>&nbsp;&nbsp;<span class="prop">status</span>: <span class="str">"Tersedia untuk kolaborasi"</span>,</div>
+              <div class="code-line"><span class="ln">14</span>};</div>
+            </div>
+          </div>
+
+          <a href="CV_Candra_Anggriana.pdf" download class="t-btn" style="margin-top:24px; display:inline-flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-download"></i> [unduh_cv.pdf]
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ============================================
+       AKHIR SECTION ABOUT ME
+  =============================================== -->
+
+
+  <!-- ============================================
+       SECTION SKILLS / KEMAMPUAN
+  =============================================== -->
+  <section class="skills section" id="skills">
+    <div class="container">
+
+      <div class="sec-header">
+        <span class="sec-cmd">cat skills.json</span>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="skills-terminal">
+        <div class="terminal-window">
+          <div class="terminal-titlebar">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="terminal-title">skills.json</span>
+          </div>
+          <div class="terminal-body skills-body">
+
+            <div class="json-line"><span class="json-brace">{</span></div>
+
+            <!-- Frontend -->
+            <div class="json-line">
+              &nbsp;&nbsp;<span class="json-key">"frontend"</span><span class="json-colon">:</span> <span class="json-brace">{</span>
+            </div>
+            <div class="skill-row" data-width="90">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"HTML5"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">90%</span>
+            </div>
+            <div class="skill-row" data-width="85">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"CSS3"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">85%</span>
+            </div>
+            <div class="skill-row" data-width="75">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">75%</span>
+            </div>
+            <div class="skill-row" data-width="80">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"Bootstrap"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">80%</span>
+            </div>
+            <div class="json-line">&nbsp;&nbsp;<span class="json-brace">}</span>,</div>
+
+            <!-- Backend -->
+            <div class="json-line">
+              &nbsp;&nbsp;<span class="json-key">"backend"</span><span class="json-colon">:</span> <span class="json-brace">{</span>
+            </div>
+            <div class="skill-row" data-width="70">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"PHP"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">70%</span>
+            </div>
+            <div class="skill-row" data-width="72">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"MySQL"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">72%</span>
+            </div>
+            <div class="skill-row" data-width="60">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"Python"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">60%</span>
+            </div>
+            <div class="json-line">&nbsp;&nbsp;<span class="json-brace">}</span>,</div>
+
+            <!-- Tools -->
+            <div class="json-line">
+              &nbsp;&nbsp;<span class="json-key">"tools"</span><span class="json-colon">:</span> <span class="json-brace">{</span>
+            </div>
+            <div class="skill-row" data-width="78">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"Git/GitHub"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">78%</span>
+            </div>
+            <div class="skill-row" data-width="65">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"Figma"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">65%</span>
+            </div>
+            <div class="skill-row" data-width="88">
+              <span class="json-key sk-name">&nbsp;&nbsp;&nbsp;&nbsp;"VS Code"</span>
+              <span class="json-colon">:</span>
+              <span class="sk-bar-wrap"><span class="sk-bar"></span></span>
+              <span class="sk-pct">88%</span>
+            </div>
+            <div class="json-line">&nbsp;&nbsp;<span class="json-brace">}</span></div>
+
+            <div class="json-line"><span class="json-brace">}</span></div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ============================================
+       AKHIR SECTION SKILLS
+  =============================================== -->
+
+
+  <!-- ============================================
+       SECTION PORTFOLIO / PROYEK
+  =============================================== -->
+  <section class="portfolio section" id="portfolio">
+    <div class="container">
+
+      <div class="sec-header">
+        <span class="sec-cmd">ls -la ./projects/</span>
+        <div class="sec-divider"></div>
+      </div>
+
+      <!-- Filter -->
+      <div class="port-filter">
+        <span class="filter-label">filter:</span>
+        <button class="f-btn active" data-filter="all">all</button>
+        <button class="f-btn" data-filter="web">web</button>
+        <button class="f-btn" data-filter="mobile">mobile</button>
+        <button class="f-btn" data-filter="design">design</button>
+      </div>
+
+      <!-- Grid proyek -->
+      <div class="port-grid" id="portfolioGrid">
+
+        <!-- Proyek 1 -->
+        <div class="port-card" data-category="web">
+          <div class="port-card-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="port-filename">library_system.php</span>
+          </div>
+          <div class="port-card-img">
+            <img src="manajemen perpustakaan.jpg" alt="Sistem Manajemen Perpustakaan" />
+            <div class="port-img-overlay">
+              <a href="portofolionya/manajemenperpus.html" target="_blank" class="t-btn t-btn-sm">
+                <i class="fa-solid fa-terminal"></i> demo
+              </a>
+              <a href="portofolionya/manajemenperpus.html" download target="_blank" class="t-btn t-btn-sm t-btn-ghost">
+                <i class="fa-brands fa-github"></i> download
+              </a>
+            </div>
+          </div>
+          <div class="port-card-body">
+            <div class="port-comment">// Proyek #001 — Web</div>
+            <h3 class="port-title">Sistem Manajemen Perpustakaan</h3>
+            <p class="port-desc">Aplikasi web pengelolaan buku, peminjaman, dan pengembalian perpustakaan kampus.</p>
+            <div class="port-tags">
+              <span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyek 2 -->
+        <div class="port-card" data-category="web">
+          <div class="port-card-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="port-filename">ecommerce.js</span>
+          </div>
+          <div class="port-card-img">
+            <img src="e-commerce store.jpg" alt="Toko Online" />
+            <div class="port-img-overlay">
+              <a href="portofolionya/websitee-commerce.html" target="_blank" class="t-btn t-btn-sm">
+                <i class="fa-solid fa-terminal"></i> demo
+              </a>
+              <a href="portofolionya/websitee-commerce.html" download target="_blank" class="t-btn t-btn-sm t-btn-ghost">
+                <i class="fa-brands fa-github"></i> download
+              </a>
+            </div>
+          </div>
+          <div class="port-card-body">
+            <div class="port-comment">// Proyek #002 — Web</div>
+            <h3 class="port-title">Website E-Commerce</h3>
+            <p class="port-desc">Toko online lengkap dengan keranjang belanja, manajemen produk, dan checkout.</p>
+            <div class="port-tags">
+              <span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyek 3 -->
+        <div class="port-card" data-category="design">
+          <div class="port-card-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="port-filename">health_app</span>
+          </div>
+          <div class="port-card-img">
+            <img src="HealthCare.jpg" alt="UI Kesehatan" />
+            <div class="port-img-overlay">
+              <a href="portofolionya/landingpageapkkesehata.html" target="_blank" class="t-btn t-btn-sm">
+                <i class="fa-solid fa-terminal"></i> demo
+              </a>
+              <a href="portofolionya/landingpageapkkesehata.html" download target="_blank" class="t-btn t-btn-sm t-btn-ghost">
+                <i class="fa-brands fa-github"></i> download
+              </a>
+            </div>
+          </div>
+          <div class="port-card-body">
+            <div class="port-comment">// Proyek #003 — Design</div>
+            <h3 class="port-title">Design Aplikasi Kesehatan</h3>
+            <p class="port-desc">Desain antarmuka mobile untuk tracking kesehatan harian — langkah, kalori, dan jadwal minum obat.</p>
+            <div class="port-tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyek 4 -->
+        <div class="port-card" data-category="web">
+          <div class="port-card-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="port-filename">blog personal</span>
+          </div>
+          <div class="port-card-img">
+            <img src="blogpersonal.jpg" alt="Blog CMS" />
+            <div class="port-img-overlay">
+              <a href="portofolionya/blogpribadi.html" target="_blank" class="t-btn t-btn-sm">
+                <i class="fa-solid fa-terminal"></i> demo
+              </a>
+              <a href="portofolionya/blogpribadi.html" download target="_blank" class="t-btn t-btn-sm t-btn-ghost">
+                <i class="fa-brands fa-github"></i> download
+              </a>
+            </div>
+          </div>
+          <div class="port-card-body">
+            <div class="port-comment">// Proyek #004 — Web</div>
+            <h3 class="port-title">Blog Personal</h3>
+            <p class="port-desc">Website blog dengan sistem manajemen konten sederhana. Penulis bisa posting, edit, dan hapus artikel tanpa menyentuh kode.</p>
+            <div class="port-tags">
+              <span>HTML</span><span>CSS</span><span>Javascript</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyek 5 -->
+        <div class="port-card" data-category="mobile">
+          <div class="port-card-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="port-filename">Database Mahasiswa</span>
+          </div>
+          <div class="port-card-img">
+            <img src="mobile.jpg" alt="To-Do App" />
+            <div class="port-img-overlay">
+              <a href="mobile.jpg" target="_blank" class="t-btn t-btn-sm">
+                <i class="fa-solid fa-terminal"></i> lihat
+              </a>
+            </div>
+          </div>
+          <div class="port-card-body">
+            <div class="port-comment">// Proyek #005 — Mobile</div>
+            <h3 class="port-title">Aplikasi Database Mahasiswa</h3>
+            <p class="port-desc">Aplikasi sederhana database mahasiswa, menyimpan setiap data yang di input ke localStorage.</p>
+            <div class="port-tags">
+              <span>Android Studio</span><span>dart</span><span>flutter</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyek 6 -->
+        <div class="port-card" data-category="design">
+          <div class="port-card-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="port-filename">coffee_landing.html</span>
+          </div>
+          <div class="port-card-img">
+            <img src="landingpagekopi.jpg" alt="Landing Page Kopi" />
+            <div class="port-img-overlay">
+              <a href="portofolionya/landingpagekedaikopi.html" target="_blank" class="t-btn t-btn-sm">
+                <i class="fa-solid fa-terminal"></i> demo
+              </a>
+              <a href="portofolionya/landingpagekedaikopi.html" download target="_blank" class="t-btn t-btn-sm t-btn-ghost">
+                <i class="fa-brands fa-github"></i> download
+              </a>
+            </div>
+          </div>
+          <div class="port-card-body">
+            <div class="port-comment">// Proyek #006 — Design</div>
+            <h3 class="port-title">Landing Page Kedai Kopi</h3>
+            <p class="port-desc">Landing page modern untuk kedai kopi lokal dengan menu interaktif, galeri foto, dan form reservasi meja online.</p>
+            <div class="port-tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ============================================
+       AKHIR SECTION PORTFOLIO
+  =============================================== -->
+
+
+  <!-- ============================================
+       SECTION CONTACT / KONTAK
+  =============================================== -->
+  <section class="contact section" id="contact">
+    <div class="container">
+
+      <div class="sec-header">
+        <span class="sec-cmd">./send_message.sh</span>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="contact-grid">
+
+        <!-- Info kontak kiri -->
+        <div class="contact-info">
+          <div class="t-line">
+            <span class="t-prompt">root@portfolio:~$</span>
+            <span class="t-cmd"> echo "Let's connect!"</span>
+          </div>
+          <p class="contact-tagline">Saya terbuka untuk kolaborasi, freelance, atau sekadar ngobrol soal teknologi.</p>
+
+          <div class="contact-items">
+            <div class="contact-entry">
+              <span class="ce-key">email</span>
+              <span class="ce-sep">=</span>
+              <a href="mailto:mardi19111961@gmail.com" class="ce-val">"mardi19111961@gmail.com"</a>
+            </div>
+            <div class="contact-entry">
+              <span class="ce-key">whatsapp</span>
+              <span class="ce-sep">=</span>
+              <a href="https://wa.me/628811059515" target="_blank" class="ce-val">"[NOMOR WA ANDA]"</a>
+            </div>
+            <div class="contact-entry">
+              <span class="ce-key">lokasi</span>
+              <span class="ce-sep">=</span>
+              <span class="ce-val">"Serang, Banten"</span>
+            </div>
+            <div class="contact-entry">
+              <span class="ce-key">github</span>
+              <span class="ce-sep">=</span>
+              <a href="https://github.com/Candra-web-tech" target="_blank" class="ce-val">"Candra-web-tech"</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form kontak kanan -->
+        <div class="contact-form-wrap">
+          <div class="terminal-window">
+            <div class="terminal-titlebar">
+              <div class="terminal-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <span class="terminal-title">send_message.sh</span>
+            </div>
+            <div class="terminal-body">
+              <form class="c-form" id="contactForm">
+                <div class="c-field">
+                  <label><span class="t-prompt-mini">$</span> nama<span class="req">*</span></label>
+                  <input type="text" id="f-name" placeholder="masukkan nama kamu..." required />
+                </div>
+                <div class="c-field">
+                  <label><span class="t-prompt-mini">$</span> email<span class="req">*</span></label>
+                  <input type="email" id="f-email" placeholder="email@kamu.com" required />
+                </div>
+                <div class="c-field">
+                  <label><span class="t-prompt-mini">$</span> subjek<span class="req">*</span></label>
+                  <input type="text" id="f-subject" placeholder="perihal pesan..." required />
+                </div>
+                <div class="c-field">
+                  <label><span class="t-prompt-mini">$</span> pesan<span class="req">*</span></label>
+                  <textarea id="f-message" rows="4" placeholder="ketik pesan kamu di sini..." required></textarea>
+                </div>
+                <button type="submit" class="t-btn btn-submit">
+                  <i class="fa-solid fa-paper-plane"></i> ./kirim_pesan.sh
+                </button>
+                <div class="form-status" id="formStatus"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ============================================
+       AKHIR SECTION CONTACT
+  =============================================== -->
+
+
+  <!-- ============================================
+       FOOTER
+  =============================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="t-prompt">visitor@portfolio:~$</span>
+          <span class="t-cmd"> exit</span>
+        </div>
+        <div class="footer-center">
+          <p>&copy; 2026 <span class="t-hl">Candra Anggriana</span> — dibuat dengan
+            <span class="t-hl">HTML</span>,
+            <span class="t-hl">CSS</span> &
+            <span class="t-hl">JS</span>
+          </p>
+        </div>
+        <div class="footer-right">
+          <a href="https://github.com/Candra-web-tech" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/pt-lebak-artha-global-592386417/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/bubucan08/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="process-bar">
+          <span id="processAnim"></span>
+        </span>
+        <span class="footer-status">[ session closed ]</span>
+      </div>
+    </div>
+  </footer>
+  <!-- ============================================
+       AKHIR FOOTER
+  =============================================== -->
+
+
+  <!-- ============================================
+       TOMBOL SCROLL TO TOP
+  =============================================== -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to Top">
+    <span>↑ top</span>
+  </button>
+  <!-- ============================================
+       AKHIR TOMBOL SCROLL TO TOP
+  =============================================== -->
+
+
+  <script src="script.js"></script>
+</body>
+</html>

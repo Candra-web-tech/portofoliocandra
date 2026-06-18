@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopi Nusantara</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI', sans-serif;
+        }
+
+        body{
+            background:#f8f5f2;
+            color:#333;
+        }
+
+        header{
+            position:fixed;
+            width:100%;
+            top:0;
+            left:0;
+            background:#3e2723;
+            padding:15px 8%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            z-index:1000;
+        }
+
+        .logo{
+            color:white;
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        nav ul{
+            display:flex;
+            list-style:none;
+        }
+
+        nav ul li{
+            margin-left:25px;
+        }
+
+        nav ul li a{
+            color:white;
+            text-decoration:none;
+            transition:.3s;
+        }
+
+        nav ul li a:hover{
+            color:#ffcc80;
+        }
+
+        .hero{
+            height:100vh;
+            background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
+            url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80');
+            background-size:cover;
+            background-position:center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            color:white;
+        }
+
+        .hero-content h1{
+            font-size:60px;
+            margin-bottom:15px;
+        }
+
+        .hero-content p{
+            font-size:20px;
+            margin-bottom:20px;
+        }
+
+        .btn{
+            padding:12px 25px;
+            border:none;
+            background:#c68b59;
+            color:white;
+            font-size:16px;
+            border-radius:5px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .btn:hover{
+            background:#a56b3f;
+        }
+
+        section{
+            padding:80px 8%;
+        }
+
+        .title{
+            text-align:center;
+            margin-bottom:40px;
+            font-size:36px;
+            color:#3e2723;
+        }
+
+        .menu{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:25px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+        }
+
+        .card h3{
+            margin-bottom:10px;
+            color:#3e2723;
+        }
+
+        .price{
+            color:#c68b59;
+            font-size:20px;
+            font-weight:bold;
+        }
+
+        .about{
+            text-align:center;
+            line-height:1.8;
+        }
+
+        .counter-section{
+            background:#3e2723;
+            color:white;
+            text-align:center;
+        }
+
+        .counter{
+            font-size:50px;
+            font-weight:bold;
+        }
+
+        footer{
+            background:#222;
+            color:white;
+            text-align:center;
+            padding:20px;
+        }
+
+        @media(max-width:768px){
+            .hero-content h1{
+                font-size:40px;
+            }
+
+            nav ul{
+                display:none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">☕ Kopi Nusantara</div>
+
+        <nav>
+            <ul>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#pengunjung">Pengunjung</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nikmati Secangkir Inspirasi</h1>
+            <p>Kopi pilihan terbaik untuk menemani harimu.</p>
+            <button class="btn" onclick="pesanSekarang()">
+                Pesan Sekarang
+            </button>
+        </div>
+    </section>
+
+    <section id="menu">
+        <h2 class="title">Menu Favorit</h2>
+
+        <div class="menu">
+            <div class="card">
+                <h3>Espresso</h3>
+                <p>Kopi murni dengan rasa kuat.</p>
+                <div class="price">Rp15.000</div>
+            </div>
+
+            <div class="card">
+                <h3>Cappuccino</h3>
+                <p>Perpaduan kopi dan susu yang lembut.</p>
+                <div class="price">Rp22.000</div>
+            </div>
+
+            <div class="card">
+                <h3>Latte</h3>
+                <p>Kopi susu dengan foam yang creamy.</p>
+                <div class="price">Rp25.000</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="title">Tentang Kami</h2>
+
+        <div class="about">
+            <p>
+                Kopi Nusantara menghadirkan biji kopi terbaik dari berbagai
+                daerah di Indonesia. Kami percaya bahwa secangkir kopi bukan
+                hanya minuman, tetapi pengalaman yang menghubungkan cerita,
+                budaya, dan inspirasi.
+            </p>
+        </div>
+    </section>
+
+    <section id="pengunjung" class="counter-section">
+        <h2 class="title" style="color:white;">Jumlah Pengunjung</h2>
+        <div class="counter" id="counter">0</div>
+        <p>Pengunjung puas menikmati kopi kami.</p>
+    </section>
+
+    <footer>
+        <p>© 2026 Kopi Nusantara | Semua Hak Dilindungi</p>
+    </footer>
+
+    <script>
+        function pesanSekarang(){
+            alert("Pesan Melalui Whatsapp +62 8xx xxxx xxxx.");
+        }
+
+        let count = 0;
+        const target = 5000;
+        const counter = document.getElementById("counter");
+
+        const interval = setInterval(() => {
+            count += 50;
+            counter.textContent = count;
+
+            if(count >= target){
+                counter.textContent = target + "+";
+                clearInterval(interval);
+            }
+        }, 20);
+    </script>
+
+</body>
+</html>

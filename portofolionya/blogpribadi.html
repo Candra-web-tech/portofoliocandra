@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Personal</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+header{
+    background:#2563eb;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:350px 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+textarea{
+    height:150px;
+    resize:none;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    cursor:pointer;
+    border-radius:5px;
+    color:white;
+}
+
+.btn-save{
+    background:#16a34a;
+}
+
+.btn-edit{
+    background:#f59e0b;
+}
+
+.btn-delete{
+    background:#dc2626;
+}
+
+.article{
+    border-bottom:1px solid #ddd;
+    padding:15px 0;
+}
+
+.article h3{
+    color:#2563eb;
+}
+
+.article p{
+    margin:10px 0;
+    color:#555;
+}
+
+.action{
+    display:flex;
+    gap:10px;
+}
+
+.date{
+    font-size:12px;
+    color:gray;
+}
+
+@media(max-width:768px){
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>📝 Blog Personal</h1>
+    <p>Kelola artikel tanpa menyentuh kode</p>
+</header>
+
+<div class="container">
+
+    <div class="dashboard">
+
+        <!-- FORM CMS -->
+        <div class="card">
+
+            <h2>Tambah Artikel</h2>
+
+            <input type="hidden" id="editId">
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Judul Artikel">
+
+            <textarea
+                id="content"
+                placeholder="Isi Artikel">
+            </textarea>
+
+            <button
+                class="btn-save"
+                onclick="saveArticle()">
+                Simpan Artikel
+            </button>
+
+        </div>
+
+        <!-- BLOG -->
+        <div class="card">
+
+            <h2>Daftar Artikel</h2>
+
+            <div id="articleList"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let articles =
+JSON.parse(localStorage.getItem("articles")) || [];
+
+renderArticles();
+
+function saveArticle(){
+
+    let title =
+    document.getElementById("title").value;
+
+    let content =
+    document.getElementById("content").value;
+
+    let editId =
+    document.getElementById("editId").value;
+
+    if(title === "" || content === ""){
+        alert("Lengkapi data!");
+        return;
+    }
+
+    if(editId){
+
+        articles[editId].title = title;
+        articles[editId].content = content;
+
+    }else{
+
+        articles.push({
+            title:title,
+            content:content,
+            date:new Date().toLocaleString()
+        });
+
+    }
+
+    localStorage.setItem(
+        "articles",
+        JSON.stringify(articles)
+    );
+
+    resetForm();
+    renderArticles();
+}
+
+function renderArticles(){
+
+    let container =
+    document.getElementById("articleList");
+
+    container.innerHTML = "";
+
+    if(articles.length === 0){
+        container.innerHTML =
+        "<p>Belum ada artikel.</p>";
+        return;
+    }
+
+    articles
+    .slice()
+    .reverse()
+    .forEach((article,index)=>{
+
+        let realIndex =
+        articles.length - 1 - index;
+
+        container.innerHTML += `
+        <div class="article">
+
+            <h3>${article.title}</h3>
+
+            <div class="date">
+                ${article.date}
+            </div>
+
+            <p>
+                ${article.content.substring(0,150)}...
+            </p>
+
+            <div class="action">
+
+                <button
+                class="btn-edit"
+                onclick="editArticle(${realIndex})">
+                Edit
+                </button>
+
+                <button
+                class="btn-delete"
+                onclick="deleteArticle(${realIndex})">
+                Hapus
+                </button>
+
+            </div>
+
+        </div>
+        `;
+    });
+}
+
+function editArticle(index){
+
+    document.getElementById("title").value =
+    articles[index].title;
+
+    document.getElementById("content").value =
+    articles[index].content;
+
+    document.getElementById("editId").value =
+    index;
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+function deleteArticle(index){
+
+    if(confirm("Hapus artikel ini?")){
+
+        articles.splice(index,1);
+
+        localStorage.setItem(
+            "articles",
+            JSON.stringify(articles)
+        );
+
+        renderArticles();
+    }
+}
+
+function resetForm(){
+
+    document.getElementById("title").value="";
+    document.getElementById("content").value="";
+    document.getElementById("editId").value="";
+}
+
+</script>
+
+</body>
+</html>
